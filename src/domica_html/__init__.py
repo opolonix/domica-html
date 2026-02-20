@@ -1,6 +1,10 @@
 from .node import node, node_container
+from .block import text, indent_text
 
 from .tags import (
+    text,
+    indent_text,
+
     attr_value,
     html_tag,
     html,
@@ -31,6 +35,9 @@ from .inctement import inc
 
 __all__ = [
     "inc",
+
+    "text",
+    "indent_text",
 
     "node",
     "node_container",
