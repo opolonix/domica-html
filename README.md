@@ -32,7 +32,7 @@ external_tags: ContextVar[dict[Type, list["external_container"]]] = ContextVar("
 
 class external_container(node_container):
     def __init__(self, *, anchor=False):
-        super().__init__(pin_to_parent=anchor)
+        super().__init__(anchor=anchor)
         if not anchor:
             tags = external_tags.get()
             tags[self.__class__].append(self)

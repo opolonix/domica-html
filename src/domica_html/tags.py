@@ -5,7 +5,7 @@ from typing import Iterable, Callable, Self
 class attr_value(node_container):
     def __init__(self, value):
         self.value = value
-        super().__init__(pin_to_parent=False)
+        super().__init__(anchor=False)
     
     def render(self):
         value = str(self.value)
@@ -22,7 +22,7 @@ class html_tag(node_container):
         inner_text: str | node_container = "",
         *,
         _class: Iterable[node_container | str] = None,
-        pin_to_parent = True,
+        anchor = True,
         **attrs
     ):
         add = {}
@@ -37,7 +37,7 @@ class html_tag(node_container):
         self.attrs = {k: self.prepare_value(v) for k, v in (attrs | add).items()}
         self.inner_text = self.prepare_value(inner_text)
 
-        super().__init__(pin_to_parent=pin_to_parent)
+        super().__init__(anchor=anchor)
 
     def prepare_value(self, value):
         if isinstance(value, node_container):
@@ -190,8 +190,8 @@ class style_item(node_container):
 
     _replace_attr_name: Callable[[str], str] = lambda _, s: s.removeprefix("_").replace("_", "-")
 
-    def __init__(self, selector, *items: node_container, _pin_to_parent=True, **attrs):
-        super().__init__(pin_to_parent=_pin_to_parent)
+    def __init__(self, selector, *items: node_container, _anchor=True, **attrs):
+        super().__init__(anchor=_anchor)
         self.selector = selector
         self.attrs = attrs
 

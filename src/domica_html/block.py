@@ -8,10 +8,10 @@ class text(node):
     def __init__(
         self,
         value: str | node,
-        pin_to_parent = True
+        anchor = True
     ):
         self.value = value
-        super().__init__(pin_to_parent)
+        super().__init__(anchor)
 
     def render(self):
         if self.indent_prefix:

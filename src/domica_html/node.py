@@ -9,10 +9,10 @@ if TYPE_CHECKING:
         def remove_child(self, child: "node") -> None: ...
 
 class node:
-    def __init__(self, pin_to_parent: bool = False):
+    def __init__(self, anchor: bool = False):
         self._parent: Optional["node_container_rotocol"] = None
 
-        if pin_to_parent:
+        if anchor:
             parent = self.get_parent()
             if parent:
                 parent.add_child(self)
@@ -54,8 +54,8 @@ class node:
         return "<node/>"
 
 class node_container(node):
-    def __init__(self, pin_to_parent: bool = False):
-        super().__init__(pin_to_parent)
+    def __init__(self, anchor: bool = False):
+        super().__init__(anchor)
         self.children: List[node] = []
 
     def add_child(self, child: node):
