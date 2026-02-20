@@ -13,7 +13,6 @@ keywords = ["html", "dsl", "html-generator", "python-html", "dom"]
 authors = [
     { name = "Opolo", email = "nefris.me@gmail.com" }
 ]
-
 dependencies = []
 
 [project.urls]
@@ -21,16 +20,6 @@ Homepage = "https://github.com/opolonix/domica-html"
 Repository = "https://github.com/opolonix/domica-html"
 Documentation = "https://github.com/opolonix/domica-html#readme"
 
-[tool.setuptools]
-packages = ["src"]
-
+# Настройка setuptools для src layout
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "mypy>=1.5",
-    "black>=23.3",
-    "isort>=6.0"
-]
