@@ -1,6 +1,6 @@
 from .node import node_container
 from .inctement import inc
-from typing import Iterable, Callable
+from typing import Iterable, Callable, Self
 
 class attr_value(node_container):
     def __init__(self, value):
@@ -15,7 +15,7 @@ class html_tag(node_container):
     close_tag: bool = True
     enter_space: bool = True
 
-    _replace_attr_name: Callable[[str], str] = lambda _, s: s.removeprefix("_").replace("_", "-")
+    _replace_attr_name: Callable[[Self, str], str] = lambda _, s: s.removeprefix("_").replace("_", "-")
 
     def __init__(
         self,
@@ -68,7 +68,7 @@ class html_tag(node_container):
                     if self.enter_space and not v.startswith(inc.enter_space): 
                         kd_childs.append(inc.enter_space)
                     kd_childs.append(v)
-                for child in self.childs:
+                for child in self.children:
                     kd_childs.append(str(child))
 
             if kd_childs:
@@ -215,7 +215,7 @@ class style_item(node_container):
                 kb_childs.append(render_value)
                 kb_childs.append(";")
 
-            for child in self.childs:
+            for child in self.children:
                 render_child = str(child)
                 kb_childs.append(space + render_child.removeprefix(space))
         if kb_childs:
