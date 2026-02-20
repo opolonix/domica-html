@@ -22,8 +22,7 @@ output:
 
 Реализация собственного компонента:
 ```python
-from domica_html import html, div, inc, node_container, script
-from domica_html.block import indent_text
+from domica_html import html, div, inc, node_container, script, indent_text
 from contextvars import ContextVar
 from collections import defaultdict
 from typing import Type
@@ -78,3 +77,4 @@ output:
     </script>
 </html>
 ```
+
