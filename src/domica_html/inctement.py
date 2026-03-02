@@ -37,7 +37,7 @@ class IncrementContext:
     
     @property
     def char(self):
-        return self._char[-1] if self._char else ""
+        return self._char[-1] if self._char else "    "
     
     def pop(self):
         if self._indent:

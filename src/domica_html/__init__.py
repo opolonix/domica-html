@@ -2,9 +2,6 @@ from .node import node, node_container
 from .block import text, indent_text
 
 from .tags import (
-    text,
-    indent_text,
-
     attr_value,
     html_tag,
     html,
@@ -29,6 +26,8 @@ from .tags import (
     meta,
     link,
     style_item,
+    form,
+    input
 )
 
 from .inctement import inc
@@ -66,6 +65,8 @@ __all__ = [
     "title",
     "meta",
     "link",
+    "form",
+    "input"
 
     "style_item",
 ]
