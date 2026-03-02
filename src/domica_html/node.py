@@ -69,5 +69,4 @@ class node_container(node):
             child.parent = None
 
     def render(self):
-        inner = "".join(str(c) for c in self.children)
-        return f"<node_container>{inner}</node_container>"
+        return "".join(str(c) for c in self.children)
