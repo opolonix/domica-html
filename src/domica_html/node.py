@@ -25,32 +25,6 @@ class node_base:
         return str(value)
 
 
-    @staticmethod
-    async def async_render_item(value): 
-        if isinstance(value, list):
-            return "".join([await node_base.async_render_item(v) for v in value])
-        if isinstance(value, node):
-            result = value.render()
-            if inspect.isawaitable(result):
-                return await result
-            return result
-
-        if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
-            result = to_call()
-            if inspect.isawaitable(result):
-                return await result
-            return result
-
-        if callable(value):
-            result = value()
-            if inspect.isawaitable(result):
-                return await result
-            return result
-
-        return str(value)
-
-
-
 class node:
     def __init__(self, anchor: bool = False):
         self._parent: Optional["node_container_rotocol"] = None
@@ -66,9 +40,6 @@ class node:
     
     def value_sync(self, value):
         return node_base.render_item(value)
-
-    async def value_async(self, value):
-        return await node_base.async_render_item(value)
 
     @parent.setter
     def parent(self, value: Optional["node_container_rotocol"]):

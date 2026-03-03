@@ -64,12 +64,12 @@ class html_tag(node_container):
         if self.close_tag:
             kd_childs = []
             with inc:
-                if (v := str(self.inner_text)):
+                if (v := self.value_sync(self.inner_text)):
                     if self.enter_space and not v.startswith(inc.enter_space): 
                         kd_childs.append(inc.enter_space)
                     kd_childs.append(v)
                 for child in self.children:
-                    kd_childs.append(child)
+                    kd_childs.append(self.value_sync(child))
 
             if kd_childs:
                 kd += kd_childs
@@ -79,6 +79,7 @@ class html_tag(node_container):
             kd.append("</")
             kd.append(self.__class__.__name__)
             kd.append(">")
+
 
         return self.value_sync(kd)
 
