@@ -80,7 +80,7 @@ class html_tag(node_container):
             kd.append(self.__class__.__name__)
             kd.append(">")
 
-        return "".join(kd)
+        return self.value_sync(kd)
 
 class _inline(html_tag):
     enter_space=False

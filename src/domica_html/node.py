@@ -13,7 +13,9 @@ if TYPE_CHECKING:
 
 class node_base:
     @staticmethod
-    def render_item(value):
+    def render_item(value) -> str:
+        if isinstance(value, list):
+            return "".join([node_base.render_item(v) for v in value])
         if isinstance(value, node):
             return value.render()
         if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
@@ -24,7 +26,9 @@ class node_base:
 
 
     @staticmethod
-    async def async_render_item(value):
+    async def async_render_item(value): 
+        if isinstance(value, list):
+            return "".join([await node_base.async_render_item(v) for v in value])
         if isinstance(value, node):
             result = value.render()
             if inspect.isawaitable(result):
@@ -64,7 +68,7 @@ class node:
         return node_base.render_item(value)
 
     async def value_async(self, value):
-        return node_base.async_render_item(value)
+        return await node_base.async_render_item(value)
 
     @parent.setter
     def parent(self, value: Optional["node_container_rotocol"]):
@@ -93,7 +97,7 @@ class node:
         return False
 
     def __str__(self):
-        return self.render()
+        return self.value_sync(self.render())
 
     def render(self):
         return "<node/>"
@@ -116,4 +120,4 @@ class node_container(node):
             child.parent = None
 
     def render(self):
-        return "".join(str(c) for c in self.children)
+        return self.children
