@@ -54,10 +54,12 @@ class html_tag(node_container):
         for key, value in self.attrs.items():
             if not isinstance(value, attr_value):
                 value = attr_value(value)
+
+            attrs_kb.append(" ")
             attrs_kb.append(self._replace_attr_name(key) +"="+self.value_sync(value))
-        if attrs_kb:
-            kd.append(" ")
-            kd.append(attrs_kb)
+
+        kd.append(attrs_kb)
+
 
         kd.append(">")
 
