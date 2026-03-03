@@ -69,9 +69,7 @@ class _increment:
     @property
     def space(self) -> str:
         current_value = (self.char * self.indent) if self.char else ""
-        def r(): 
-            with inc(indent=inc.indent - 1):
-                return self.space
+        def r(): return self.space
         return _str(current_value, refresh=r)
 
     @property
