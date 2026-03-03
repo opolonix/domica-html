@@ -21,7 +21,7 @@ output:
 
 Реализация собственного компонента:
 ```python
-from domica_html import html, div, inc, node_container, script, indent_text
+from domica_html import html, div, inc, node_container, script, line
 from contextvars import ContextVar
 from collections import defaultdict
 from typing import Type
@@ -52,9 +52,9 @@ with doc:
     with div():
         div("Hello world with some script", onclick="hello_on_click")
         with global_script():
-            indent_text("const hello_on_click = () => {")
-            indent_text(inc.space, "alert('hello!');")
-            indent_text("}")
+            line("const hello_on_click = () => {")
+            line(inc.space, "alert('hello!');")
+            line("}")
 
     with script():
         global_script(anchor=True)

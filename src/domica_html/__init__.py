@@ -1,5 +1,5 @@
 from .node import node, node_container
-from .block import text, indent_text
+from .block import text, line
 
 from .tags import (
     attr_value,
@@ -36,7 +36,7 @@ __all__ = [
     "inc",
 
     "text",
-    "indent_text",
+    "line",
 
     "node",
     "node_container",

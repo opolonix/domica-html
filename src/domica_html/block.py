@@ -18,5 +18,5 @@ class text(node):
             return inc.enter_space + self.value_sync(self.value)
         return self.value_sync(self.value)
 
-class indent_text(text):
+class line(text):
     indent_prefix: bool = True
