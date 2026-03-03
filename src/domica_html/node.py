@@ -15,9 +15,10 @@ class node_base:
     @staticmethod
     def render_item(value) -> str:
         if isinstance(value, list | tuple):
+            print([node_base.render_item(v) for v in value])
             return "".join([node_base.render_item(v) for v in value])
         if isinstance(value, node):
-            return value.render()
+            return node_base.render_item(value.render())
         if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
             return node_base.render_item(to_call())
         return str(value)
