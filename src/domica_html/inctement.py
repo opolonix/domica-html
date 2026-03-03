@@ -79,7 +79,7 @@ class _increment:
 
     @property
     def enter_space(self) -> str:
-        return ("\n" + self.space) if self.char else ""
+        return _str(("\n" + self.space) if self.char else "", refresh=lambda: self.enter_space)
 
     def __call__(
         self,
