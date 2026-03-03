@@ -1,8 +1,8 @@
-from .node import node
+from .node import node_container, node
 from .inctement import inc
 
 
-class text(node):
+class text(node_container):
     indent_prefix: bool = False
 
     def __init__(
@@ -14,9 +14,14 @@ class text(node):
         super().__init__(anchor)
 
     def render(self):
+        content = self.value_sync(self.value)
+        if self.children:
+            with inc:
+                content += self.value_sync(self.children)
+
         if self.indent_prefix:
-            return inc.enter_space + self.value_sync(self.value)
-        return self.value_sync(self.value)
+            return inc.enter_space + content
+        return content
 
 class line(text):
     indent_prefix: bool = True
