@@ -7,7 +7,7 @@ class text(node):
 
     def __init__(
         self,
-        value: str | node,
+        *value: str | node,
         anchor = True
     ):
         self.value = value
@@ -15,9 +15,8 @@ class text(node):
 
     def render(self):
         if self.indent_prefix:
-            return inc.enter_space + str(self.value)
-        return str(self.value)
-    
+            return inc.enter_space + self.value_sync(self.value)
+        return self.value_sync(self.value)
 
 class indent_text(text):
     indent_prefix: bool = True

@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class node_base:
     @staticmethod
     def render_item(value) -> str:
-        if isinstance(value, list):
+        if isinstance(value, list | tuple):
             return "".join([node_base.render_item(v) for v in value])
         if isinstance(value, node):
             return value.render()
