@@ -8,8 +8,7 @@ doc = html()
 with doc:
     div("hello world")
 
-with inc(0, char="    "):
-    print(doc.render())
+print(doc.render())
 ```
 output:
 ```txt
@@ -48,19 +47,20 @@ class external_container(node_container):
 class global_script(external_container): ...
 
 doc = html()
+
 with doc:
     with div():
         div("Hello world with some script", onclick="hello_on_click")
         with global_script():
             indent_text("const hello_on_click = () => {")
-            indent_text("    alert('hello!');")
+            indent_text(inc.space, "alert('hello!');")
             indent_text("}")
 
     with script():
         global_script(anchor=True)
 
-with inc(indent=0, char="    "):
-    print(doc.render())
+print(doc.render())
+
 ```
 output:
 ```txt
