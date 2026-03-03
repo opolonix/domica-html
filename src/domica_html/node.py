@@ -15,7 +15,6 @@ class node_base:
     @staticmethod
     def render_item(value) -> str:
         if isinstance(value, list | tuple):
-            print([node_base.render_item(v) for v in value])
             return "".join([node_base.render_item(v) for v in value])
         if isinstance(value, node):
             return node_base.render_item(value.render())
