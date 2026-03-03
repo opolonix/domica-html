@@ -54,10 +54,10 @@ class html_tag(node_container):
         for key, value in self.attrs.items():
             if not isinstance(value, attr_value):
                 value = attr_value(value)
-            attrs_kb.append(self._replace_attr_name(key) +"="+str(value))
+            attrs_kb.append(self._replace_attr_name(key) +"="+self.value_sync(value))
         if attrs_kb:
             kd.append(" ")
-            kd.append(" ".join(attrs_kb))
+            kd.append(attrs_kb)
 
         kd.append(">")
 
@@ -69,7 +69,7 @@ class html_tag(node_container):
                         kd_childs.append(inc.enter_space)
                     kd_childs.append(v)
                 for child in self.children:
-                    kd_childs.append(str(child))
+                    kd_childs.append(child)
 
             if kd_childs:
                 kd += kd_childs
