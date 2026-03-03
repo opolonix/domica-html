@@ -42,7 +42,8 @@ class external_container(node_container):
             if child is self: continue
             self.add_child(child)
 
-        return super().render()
+        with inc(indent=inc.indent-1):
+            return super().render()
 
 class global_script(external_container): ...
 
