@@ -19,9 +19,7 @@ class node_base:
         if isinstance(value, node):
             return value.render()
         if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
-            return to_call()
-        if callable(value):
-            return value()
+            return node_base.render_item(to_call())
         return str(value)
 
 
