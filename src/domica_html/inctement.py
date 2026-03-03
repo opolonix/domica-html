@@ -1,6 +1,15 @@
 import contextvars
+from typing import Callable
 
 increment_context: contextvars.ContextVar["IncrementContext"] = contextvars.ContextVar("dom_item_context_var_ind")
+
+def _str(value, refresh: Callable):
+    class r_str(str):
+        def re_render(_):
+            return refresh()
+
+    return r_str(value)
+    
 
 class IncrementContext:
     def __init__(self):
@@ -38,7 +47,7 @@ class IncrementContext:
     @property
     def char(self):
         return self._char[-1] if self._char else "    "
-    
+
     def pop(self):
         if self._indent:
             self._indent.pop(-1)
@@ -58,7 +67,7 @@ class _increment:
 
     @property
     def space(self) -> str:
-        return (self.char * self.indent) if self.char else ""
+        return _str((self.char * self.indent) if self.char else "", refresh=lambda: self.space)
 
     @property
     def context(self):
