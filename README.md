@@ -1,7 +1,7 @@
 Библиотека для формирования штмл структуры
 
 ```python
-from domica_html import html, div, inc
+from domica_html import html, div
 
 doc = html()
 
@@ -51,7 +51,7 @@ doc = html()
 
 with doc:
     with div():
-        div("Hello world with some script", onclick="hello_on_click")
+        div("Hello world with some script", onclick="hello_on_click()")
         with global_script():
             line("const hello_on_click = () => {")
             line(inc.space, "alert('hello!');")
@@ -78,4 +78,5 @@ output:
     </script>
 </html>
 ```
+
 
