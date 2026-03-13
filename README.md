@@ -1,5 +1,20 @@
-Библиотека для формирования штмл структуры
+Библиотека для декларативного формирования HTML-структуры на Python.
 
+Текущая ветка `0.1.x` рассматривается как финальная синхронная линия библиотеки. Дальнейшие крупные изменения, включая поддержку асинхронности, планируются в `0.2.0`.
+
+## Установка
+
+```bash
+pip install git+https://github.com/opolonix/domica-html.git
+```
+
+Для локальной разработки:
+
+```bash
+pip install -e .[dev]
+```
+
+## Пример
 ```python
 from domica_html import html, div
 
@@ -19,7 +34,7 @@ output:
 </html>
 ```
 
-Реализация собственного компонента:
+## Реализация собственного компонента
 ```python
 from domica_html import html, div, inc, node_container, script, line
 from contextvars import ContextVar
@@ -78,4 +93,8 @@ output:
     </script>
 </html>
 ```
+
+## Релизы
+
+- `0.1.4`: финальная стабильная синхронная версия ветки `0.1.x`
 

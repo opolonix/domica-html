@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "domica_html"
-version = "0.1.3"
+version = "0.1.4"
 description = "Declarative Python DSL for building HTML documents programmatically"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -13,13 +13,34 @@ keywords = ["html", "dsl", "html-generator", "python-html", "dom"]
 authors = [
     { name = "Opolo", email = "nefris.me@gmail.com" }
 ]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
 dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.2.2",
+    "twine>=6.1.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/opolonix/domica-html"
 Repository = "https://github.com/opolonix/domica-html"
 Documentation = "https://github.com/opolonix/domica-html#readme"
 
-# Настройка setuptools для src layout
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.packages.find]
 where = ["src"]
