@@ -2,7 +2,7 @@ from typing import Optional, List, Protocol, TYPE_CHECKING
 
 import contextvars
 
-item_context: contextvars.ContextVar[List["node_container"]] = contextvars.ContextVar("item_context", default=[])
+item_context: contextvars.ContextVar[Optional[List["node_container"]]] = contextvars.ContextVar("item_context", default=None)
 
 if TYPE_CHECKING:
     class node_container_rotocol(Protocol):
@@ -44,6 +44,8 @@ class node:
 
     def get_parent(self) -> Optional["node_container_rotocol"]:
         stack = item_context.get()
+        if stack is None:
+            return None
         return stack[-1] if stack else None
 
     def unpin_from_parent(self) -> Optional["node_container_rotocol"]:
@@ -56,12 +58,19 @@ class node:
 
     def __enter__(self):
         stack = item_context.get()
+        if stack is None:
+            stack = []
+            item_context.set(stack)
         stack.append(self)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         stack = item_context.get()
+        if stack is None:
+            return False
         stack.pop(-1)
+        if not stack:
+            item_context.set(None)
         return False
 
     def __str__(self):
