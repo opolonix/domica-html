@@ -5,7 +5,7 @@
 ## Установка
 
 ```bash
-pip install git+https://github.com/opolonix/domica-html.git@v0.1.4
+pip install git+https://github.com/opolonix/domica-html.git@v0.1.5
 ```
 
 Для локальной разработки:
@@ -97,4 +97,5 @@ output:
 ## Релизы
 
 - `0.1.4`: финальная стабильная синхронная версия ветки `0.1.x`
+
 
