@@ -1,3 +1,5 @@
+from html import escape
+
 from .node import node_container
 from .inctement import inc
 from typing import Iterable, Callable, Optional, Union
@@ -9,7 +11,7 @@ class attr_value(node_container):
     
     def render(self):
         value = str(self.value)
-        return '"' + value.replace('"', "&quot;") + '"'
+        return '"' + escape(value, quote=True) + '"'
 
 class html_tag(node_container):
     close_tag: bool = True
