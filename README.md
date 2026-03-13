@@ -5,7 +5,7 @@
 ## Установка
 
 ```bash
-pip install git+https://github.com/opolonix/domica-html.git
+pip install git+https://github.com/opolonix/domica-html.git@v0.1.4
 ```
 
 Для локальной разработки:
