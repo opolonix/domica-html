@@ -1,7 +1,7 @@
 Библиотека для формирования штмл структуры
 
 ```python
-from domica_html import html, div, inc
+from domica_html import html, div
 
 doc = html()
 
