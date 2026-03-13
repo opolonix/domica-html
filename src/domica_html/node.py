@@ -49,12 +49,12 @@ class node:
         return stack[-1] if stack else None
 
     def unpin_from_parent(self) -> Optional["node_container_rotocol"]:
-        if self._parent:
-            self._parent.remove_child(self)
-            old_parent = self._parent
-            self._parent = None
+        old_parent = self._parent
+        if old_parent:
+            old_parent.remove_child(self)
             return old_parent
         return None
+
 
     def __enter__(self):
         stack = item_context.get()
