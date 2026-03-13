@@ -1,7 +1,6 @@
 from typing import Optional, List, Protocol, TYPE_CHECKING
 
 import contextvars
-import inspect
 
 item_context: contextvars.ContextVar[List["node_container"]] = contextvars.ContextVar("item_context", default=[])
 
@@ -14,7 +13,7 @@ if TYPE_CHECKING:
 class node_base:
     @staticmethod
     def render_item(value) -> str:
-        if isinstance(value, list | tuple):
+        if isinstance(value, (list, tuple)):
             return "".join([node_base.render_item(v) for v in value])
         if isinstance(value, node):
             return node_base.render_item(value.render())

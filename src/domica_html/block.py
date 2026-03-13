@@ -1,3 +1,5 @@
+from typing import Union
+
 from .node import node_container, node
 from .inctement import inc
 
@@ -7,7 +9,7 @@ class text(node_container):
 
     def __init__(
         self,
-        *value: str | node,
+        *value: Union[str, node],
         anchor = True
     ):
         self.value = value

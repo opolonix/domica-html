@@ -1,5 +1,5 @@
 import contextvars
-from typing import Callable
+from typing import Callable, List, Union
 
 increment_context: contextvars.ContextVar["IncrementContext"] = contextvars.ContextVar("dom_item_context_var_ind")
 
@@ -15,14 +15,14 @@ def _str(value, refresh: Callable = None):
 
 class IncrementContext:
     def __init__(self):
-        self._indent: list[int] = []
-        self._char: list[str] = []
+        self._indent: List[int] = []
+        self._char: List[str] = []
         self._is_set = False
 
     def set(
         self,
-        indent: int | object = _UNSET,
-        char: str | object = _UNSET,
+        indent: Union[int, object] = _UNSET,
+        char: Union[str, object] = _UNSET,
     ) -> None:
         self._is_set = True
         if indent is not _UNSET:
@@ -84,8 +84,8 @@ class _increment:
 
     def __call__(
         self,
-        indent: int | object = _UNSET,
-        char: str | object = _UNSET
+        indent: Union[int, object] = _UNSET,
+        char: Union[str, object] = _UNSET
     ) -> "_increment":
         self.context.set(
             indent=indent,

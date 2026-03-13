@@ -1,6 +1,6 @@
 from .node import node_container
 from .inctement import inc
-from typing import Iterable, Callable, Self
+from typing import Iterable, Callable, Optional, Union
 
 class attr_value(node_container):
     def __init__(self, value):
@@ -15,13 +15,13 @@ class html_tag(node_container):
     close_tag: bool = True
     enter_space: bool = True
 
-    _replace_attr_name: Callable[[Self, str], str] = lambda _, s: s.removeprefix("_").replace("_", "-")
+    _replace_attr_name: Callable[["html_tag", str], str] = lambda _, s: s.removeprefix("_").replace("_", "-")
 
     def __init__(
         self,
-        inner_text: str | node_container = "",
+        inner_text: Union[str, node_container] = "",
         *,
-        _class: Iterable[node_container | str] = None,
+        _class: Optional[Iterable[Union[node_container, str]]] = None,
         anchor = True,
         **attrs
     ):
