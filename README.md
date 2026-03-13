@@ -69,7 +69,7 @@ with doc:
         div("Hello world with some script", onclick="hello_on_click")
         with global_script():
             line("const hello_on_click = () => {")
-            line(inc.space, "alert('hello!');")
+            line(inc.char, "alert('hello!');")
             line("}")
 
     with script():
