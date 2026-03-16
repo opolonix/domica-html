@@ -46,7 +46,7 @@ class html_tag(node_container):
             value.unpin_from_parent()
         return value
 
-    def render(self):
+    async def render(self):
         kd = []
         kd.append(inc.enter_space)
         kd.append("<")
@@ -58,7 +58,7 @@ class html_tag(node_container):
                 value = attr_value(value)
 
             attrs_kb.append(" ")
-            attrs_kb.append(self._replace_attr_name(key) +"="+self.value_sync(value))
+            attrs_kb.append(self._replace_attr_name(key) +"="+await self.render_item(value))
 
         kd.append(attrs_kb)
 
@@ -68,12 +68,12 @@ class html_tag(node_container):
         if self.close_tag:
             kd_childs = []
             with inc:
-                if (v := self.value_sync(self.inner_text)):
+                if (v := await self.render_item(self.inner_text)):
                     if self.enter_space and not v.startswith(inc.enter_space): 
                         kd_childs.append(inc.enter_space)
                     kd_childs.append(v)
                 for child in self.children:
-                    kd_childs.append(self.value_sync(child))
+                    kd_childs.append(await self.render_item(child))
 
             if kd_childs:
                 kd += kd_childs
@@ -85,7 +85,7 @@ class html_tag(node_container):
             kd.append(">")
 
 
-        return self.value_sync(kd)
+        return await self.render_item(kd)
 
 class _inline(html_tag):
     enter_space=False

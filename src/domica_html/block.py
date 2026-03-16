@@ -15,11 +15,11 @@ class text(node_container):
         self.value = value
         super().__init__(anchor)
 
-    def render(self):
-        content = self.value_sync(self.value)
+    async def render(self):
+        content = await self.render_item(self.value)
         if self.children:
             with inc:
-                content += self.value_sync(self.children)
+                content += await self.render_item(self.children)
 
         if self.indent_prefix:
             return inc.enter_space + content

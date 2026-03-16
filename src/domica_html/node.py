@@ -1,6 +1,7 @@
 from typing import Optional, List, Protocol, TYPE_CHECKING
 
 import contextvars
+import inspect
 
 item_context: contextvars.ContextVar[Optional[List["node_container"]]] = contextvars.ContextVar("item_context", default=None)
 
@@ -12,14 +13,21 @@ if TYPE_CHECKING:
 
 class node_base:
     @staticmethod
-    def render_item(value) -> str:
+    async def render_item(value, use_re_render=True) -> str:
         if isinstance(value, (list, tuple)):
-            return "".join([node_base.render_item(v) for v in value])
+            return "".join([await node_base.render_item(v) for v in value])
         if isinstance(value, node):
-            return node_base.render_item(value.render())
-        if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
-            return node_base.render_item(to_call())
+            result = value.render()
+            if inspect.isawaitable(result):
+                result = await result 
+            return await node_base.render_item(result, use_re_render=False)
+        if use_re_render and hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
+            result = to_call()
+            if inspect.isawaitable(result):
+                result = await result
+            return await node_base.render_item(result, use_re_render=False)
         return str(value)
+            
 
 
 class node:
@@ -35,8 +43,8 @@ class node:
     def parent(self) -> Optional["node_container_rotocol"]:
         return self._parent
     
-    def value_sync(self, value):
-        return node_base.render_item(value)
+    async def render_item(self, value):
+        return await node_base.render_item(value)
 
     @parent.setter
     def parent(self, value: Optional["node_container_rotocol"]):
@@ -73,13 +81,8 @@ class node:
             item_context.set(None)
         return False
 
-    def __str__(self):
-        return self.value_sync(self.render())
-
     def render(self):
         return "<node/>"
-    
-    
 
 class node_container(node):
     def __init__(self, anchor: bool = False):
@@ -96,5 +99,5 @@ class node_container(node):
             self.children.remove(child)
             child.parent = None
 
-    def render(self):
-        return self.children
+    async def render(self):
+        return await self.render_item(self.children)
