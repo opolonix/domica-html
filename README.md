@@ -2,10 +2,12 @@
 
 Текущая версия использует асинхронный рендер. Основной публичный API для получения HTML теперь `await render()`.
 
+Актуальная версия проекта: `0.2.0`.
+
 ## Установка
 
 ```bash
-pip install git+https://github.com/opolonix/domica-html.git@v0.1.5
+pip install git+https://github.com/opolonix/domica-html.git@v0.2.0
 ```
 
 Для локальной разработки:
@@ -57,7 +59,7 @@ class external_container(node_container):
             tags = external_tags.get()
             tags[self.__class__].append(self)
 
-    def render(self):
+    async def render(self):
         tags = external_tags.get()
 
         for child in tags[self.__class__]:
@@ -65,7 +67,7 @@ class external_container(node_container):
             self.add_child(child)
 
         with inc(indent=inc.indent-1):
-            return super().render()
+            return await super().render()
 
 class global_script(external_container): ...
 
@@ -107,5 +109,4 @@ output:
 ## Релизы
 
 - `0.2.0`: асинхронный рендер через `await render()`
-
-
+- `0.1.5`: финальная стабильная синхронная версия ветки `0.1.x`

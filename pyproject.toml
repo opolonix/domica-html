@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "domica_html"
-version = "0.1.4"
-description = "Declarative Python DSL for building HTML documents programmatically"
+version = "0.2.0"
+description = "Declarative Python DSL for building HTML documents with asynchronous rendering"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
