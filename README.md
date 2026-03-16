@@ -1,6 +1,6 @@
 Библиотека для декларативного формирования HTML-структуры на Python.
 
-Текущая ветка `0.1.x` рассматривается как финальная синхронная линия библиотеки. Дальнейшие крупные изменения, включая поддержку асинхронности, планируются в `0.2.0`.
+Текущая версия использует асинхронный рендер. Основной публичный API для получения HTML теперь `await render()`.
 
 ## Установка
 
@@ -16,14 +16,19 @@ pip install -e .[dev]
 
 ## Пример
 ```python
+import asyncio
+
 from domica_html import html, div
 
-doc = html()
+async def main():
+    doc = html()
 
-with doc:
-    div("hello world")
+    with doc:
+        div("hello world")
 
-print(doc.render())
+    print(await doc.render())
+
+asyncio.run(main())
 ```
 output:
 ```txt
@@ -36,6 +41,8 @@ output:
 
 ## Реализация собственного компонента
 ```python
+import asyncio
+
 from domica_html import html, div, inc, node_container, script, line
 from contextvars import ContextVar
 from collections import defaultdict
@@ -62,20 +69,23 @@ class external_container(node_container):
 
 class global_script(external_container): ...
 
-doc = html()
+async def main():
+    doc = html()
 
-with doc:
-    with div():
-        div("Hello world with some script", onclick="hello_on_click")
-        with global_script():
-            line("const hello_on_click = () => {")
-            line(inc.char, "alert('hello!');")
-            line("}")
+    with doc:
+        with div():
+            div("Hello world with some script", onclick="hello_on_click")
+            with global_script():
+                line("const hello_on_click = () => {")
+                line(inc.char, "alert('hello!');")
+                line("}")
 
-    with script():
-        global_script(anchor=True)
+        with script():
+            global_script(anchor=True)
 
-print(doc.render())
+    print(await doc.render())
+
+asyncio.run(main())
 
 ```
 output:
@@ -96,6 +106,6 @@ output:
 
 ## Релизы
 
-- `0.1.5`: финальная стабильная синхронная версия ветки `0.1.x`
+- `0.2.0`: асинхронный рендер через `await render()`
 
 
