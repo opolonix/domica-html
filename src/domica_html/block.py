@@ -5,7 +5,7 @@ from .inctement import inc
 
 
 class text(node_container):
-    indent_prefix = ""
+    indent_prefix = None
 
     def __init__(
         self,
@@ -26,9 +26,9 @@ class text(node_container):
                 with inc:
                     content += await self.render_item(self.children)
 
-            if self.indent_prefix:
+            if self.indent_prefix is not None:
                 return await self.render_item(self.indent_prefix) + content
             return content
 
 class line(text):
-    indent_prefix = inc.enter_space
+    indent_prefix = inc.start_space

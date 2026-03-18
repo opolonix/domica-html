@@ -23,7 +23,7 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
         with doc:
             div("hello world")
 
-        expected = "\n<html>\n    <div>\n        hello world\n    </div>\n</html>"
+        expected = "<html>\n    <div>\n        hello world\n    </div>\n</html>"
         self.assertEqual(await doc.render(), expected)
 
     async def test_attribute_values_are_html_escaped(self):
@@ -32,12 +32,12 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_open_tags_do_not_render_closing_tag(self):
         rendered = await img(src="logo.svg", alt='logo & "icon"').render()
-        self.assertEqual(rendered, '\n<img src="logo.svg" alt="logo &amp; &quot;icon&quot;">')
+        self.assertEqual(rendered, '<img src="logo.svg" alt="logo &amp; &quot;icon&quot;">')
 
     async def test_style_item_renders_css_block(self):
         rendered = await style(style_item(".card", color="red", font_size="14px")).render()
         expected = (
-            "\n<style>\n"
+            "<style>\n"
             "    .card {\n"
             "        color: red;\n"
             "        font-size: 14px;\n"
@@ -50,7 +50,7 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
         with script() as tag:
             line("const x = 1;")
 
-        expected = "\n<script>\n    const x = 1;\n</script>"
+        expected = "<script>\n    const x = 1;\n</script>"
         self.assertEqual(await tag.render(), expected)
 
     def test_context_stack_is_created_and_cleared(self):

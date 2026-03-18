@@ -113,6 +113,10 @@ class _increment:
         return _str(("\n" + (self.char * self.indent)) if self.char else "", refresh=lambda: self.enter_space)
 
     @property
+    def start_space(self) -> str:
+        return _str((("\n" + (self.char * self.indent)) if self.char and self.indent else ""), refresh=lambda: self.start_space)
+
+    @property
     def final(self) -> _increment_final:
         return _increment_final(self)
 

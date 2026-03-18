@@ -50,7 +50,7 @@ class html_tag(node_container):
     async def render(self):
         with inc.final:
             kd = []
-            kd.append(inc.enter_space)
+            kd.append(inc.start_space)
             kd.append("<")
             kd.append(self.__class__.__name__)
 
@@ -207,7 +207,7 @@ class style_item(node_container):
 
     def render(self):
         kb = []
-        kb.append(inc.enter_space)
+        kb.append(inc.start_space)
         kb.append(str(self.selector))
         kb.append(" {")
         kb_childs = []
