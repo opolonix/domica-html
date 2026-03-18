@@ -66,8 +66,7 @@ class external_container(node_container):
             if child is self: continue
             self.add_child(child)
 
-        with inc(indent=inc.indent-1):
-            return await super().render()
+        return await super().render()
 
 class global_script(external_container): ...
 

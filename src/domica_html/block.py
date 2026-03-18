@@ -18,7 +18,7 @@ class text(node_container):
         super().__init__(anchor)
 
     async def render(self):
-        sep = await self.render_item(sep)
+        sep = await self.render_item(self.sep)
         content = sep.join([await self.render_item(v) for v in self.value])
 
         if self.children:
