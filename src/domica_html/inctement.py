@@ -6,6 +6,10 @@ increment_context: contextvars.ContextVar["IncrementContext"] = contextvars.Cont
 _UNSET = object()
 
 def _str(value, refresh: Callable = None):
+    ctx = increment_context.get(None)
+    if ctx is not None and ctx.is_final:
+        return value
+
     class r_str(str):
         def re_render(_):
             if not refresh: return str(_)
@@ -17,6 +21,7 @@ class IncrementContext:
     def __init__(self):
         self._indent: List[int] = []
         self._char: List[str] = []
+        self._final: List[bool] = []
         self._is_set = False
 
     def set(
@@ -56,6 +61,31 @@ class IncrementContext:
             self._char.pop()
         return True
 
+    def enter_final(self) -> None:
+        self._final.append(True)
+
+    def exit_final(self) -> bool:
+        if self._final:
+            self._final.pop()
+        return True
+
+    @property
+    def is_final(self) -> bool:
+        return bool(self._final)
+
+
+class _increment_final:
+    def __init__(self, owner: "_increment"):
+        self.owner = owner
+
+    def __enter__(self) -> "_increment_final":
+        self.owner.context.enter_final()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback) -> bool:
+        self.owner.context.exit_final()
+        return False
+
 
 class _increment:
     @property
@@ -81,6 +111,10 @@ class _increment:
     @property
     def enter_space(self) -> str:
         return _str(("\n" + (self.char * self.indent)) if self.char else "", refresh=lambda: self.enter_space)
+
+    @property
+    def final(self) -> _increment_final:
+        return _increment_final(self)
 
     def __call__(
         self,

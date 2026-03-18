@@ -18,16 +18,17 @@ class text(node_container):
         super().__init__(anchor)
 
     async def render(self):
-        sep = await self.render_item(self.sep)
-        content = sep.join([await self.render_item(v) for v in self.value])
+        with inc.final:
+            sep = await self.render_item(self.sep)
+            content = sep.join([await self.render_item(v) for v in self.value])
 
-        if self.children:
-            with inc:
-                content += await self.render_item(self.children)
+            if self.children:
+                with inc:
+                    content += await self.render_item(self.children)
 
-        if self.indent_prefix:
-            return await self.render_item(self.indent_prefix) + content
-        return content
+            if self.indent_prefix:
+                return await self.render_item(self.indent_prefix) + content
+            return content
 
 class line(text):
     indent_prefix = inc.enter_space

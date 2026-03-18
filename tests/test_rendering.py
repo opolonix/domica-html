@@ -14,6 +14,7 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
         item_context.set(None)
         inc.context._indent.clear()
         inc.context._char.clear()
+        inc.context._final.clear()
         inc.context._is_set = False
 
     async def test_basic_document_render(self):
@@ -82,6 +83,20 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
         self.assertIs(old_parent, parent)
         self.assertIsNone(child.parent)
         self.assertEqual(parent.children, [])
+
+    def test_inc_final_returns_plain_string_without_refresh(self):
+        dynamic_space = inc.enter_space
+
+        with inc:
+            self.assertEqual(dynamic_space.re_render(), "\n    ")
+
+            with inc.final:
+                final_space = inc.enter_space
+                self.assertIsInstance(final_space, str)
+                self.assertFalse(hasattr(final_space, "re_render"))
+                self.assertEqual(final_space, "\n    ")
+
+            self.assertEqual(dynamic_space.re_render(), "\n    ")
 
 if __name__ == "__main__":
     unittest.main()

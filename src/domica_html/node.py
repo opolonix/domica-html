@@ -1,5 +1,5 @@
 from typing import Optional, List, Protocol, TYPE_CHECKING
-
+from .inctement import inc
 import contextvars
 import inspect
 
@@ -13,19 +13,19 @@ if TYPE_CHECKING:
 
 class node_base:
     @staticmethod
-    async def render_item(value, use_re_render=True) -> str:
+    async def render_item(value) -> str:
         if isinstance(value, (list, tuple)):
             return "".join([await node_base.render_item(v) for v in value])
         if isinstance(value, node):
             result = value.render()
             if inspect.isawaitable(result):
                 result = await result 
-            return await node_base.render_item(result, use_re_render=False)
-        if use_re_render and hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
+            return await node_base.render_item(result)
+        if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
             result = to_call()
             if inspect.isawaitable(result):
                 result = await result
-            return await node_base.render_item(result, use_re_render=False)
+            return await node_base.render_item(result)
         return str(value)
             
 
@@ -100,4 +100,5 @@ class node_container(node):
             child.parent = None
 
     async def render(self):
-        return await self.render_item(self.children)
+        with inc.final:
+            return await self.render_item(self.children)
