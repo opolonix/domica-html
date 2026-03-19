@@ -26,6 +26,16 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
         expected = "<html>\n    <div>\n        hello world\n    </div>\n</html>"
         self.assertEqual(await doc.render(), expected)
 
+    async def test_render_without_line_breaks_when_increment_char_is_empty(self):
+        doc = html()
+
+        with doc:
+            div("hello world")
+
+        with inc(char=""):
+            expected = "<html><div>hello world</div></html>"
+            self.assertEqual(await doc.render(), expected)
+
     async def test_attribute_values_are_html_escaped(self):
         rendered = await div("x", title='a&b"<c>\'').render()
         self.assertIn('title="a&amp;b&quot;&lt;c&gt;&#x27;"', rendered)
