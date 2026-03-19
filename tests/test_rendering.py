@@ -56,6 +56,13 @@ class RenderingTests(unittest.IsolatedAsyncioTestCase):
         )
         self.assertEqual(rendered, expected)
 
+    async def test_style_item_renders_inline_when_increment_char_is_empty(self):
+        with inc(char=""):
+            rendered = await style(style_item(".card", color="red", font_size="14px")).render()
+
+        expected = "<style>.card {color: red;font-size: 14px;}</style>"
+        self.assertEqual(rendered, expected)
+
     async def test_line_uses_current_indentation(self):
         with script() as tag:
             line("const x = 1;")
