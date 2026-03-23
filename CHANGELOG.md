@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-03-23
+
+- Released the current async renderer build as `0.2.1`.
+- Verified tests and packaging for the PyPI publication flow.
+
 ## 0.2.0 - 2026-03-16
 
 - Switched the public rendering flow to async: use `await render()`.
