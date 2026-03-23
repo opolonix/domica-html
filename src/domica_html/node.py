@@ -16,16 +16,18 @@ class node_base:
     async def render_item(value) -> str:
         if isinstance(value, (list, tuple)):
             return "".join([await node_base.render_item(v) for v in value])
+
         if isinstance(value, node):
             result = value.render()
-            if inspect.isawaitable(result):
-                result = await result 
             return await node_base.render_item(result)
+
         if hasattr(value, "re_render") and callable((to_call := getattr(value, "re_render"))):
             result = to_call()
-            if inspect.isawaitable(result):
-                result = await result
             return await node_base.render_item(result)
+
+        if inspect.isawaitable(value):
+            return await node_base.render_item(await value)
+
         return str(value)
             
 
